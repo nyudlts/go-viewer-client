@@ -1,8 +1,7 @@
 package viewer
 
 import (
-        // "net/http/httptest"
-        // "sort"
+	"net/http/httptest"
         "testing"
 )
 
@@ -30,7 +29,7 @@ func TestResource(t *testing.T) {
 	})
 
         t.Run("Resource Metadata PageCount Value", func(t *testing.T) {
-		want := uint(97)
+		want := 97
 		got := resource.Metadata.PageCount.Value
 		if want != got {
 			t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want, got)
@@ -38,42 +37,48 @@ func TestResource(t *testing.T) {
 	})
 }
 
-	
-	
 
+func TestResourceGetByNOIDImageSet(t *testing.T) {
 
-// func TestResourceGetByNOID(t *testing.T) {
+        mux := setupMux("/viewer/api/v1/noid/xgxd28gq", "testdata/image-set.json")
+        ts := httptest.NewServer(mux)
+        defer ts.Close()
 
-//         mux := setupMux("/viewer/api/v1/noid/xgxd28gq", "testdata/image-set.json")
-//         ts := httptest.NewServer(mux)
-//         defer ts.Close()
+        setupTestServerClient(ts)
 
-//         setupTestServerClient(ts)
+        t.Run("Get Image Set data by NOID", func(t *testing.T) {
+                resource, err := ResourceGetByNOID("xgxd28gq")
+                if err != nil {
+                        t.Errorf("Unexpected error: %s", err)
+                }
 
-//         t.Run("ResourceGET", func(t *testing.T) {
-//                 resource, err := ResourceGetByNOID("xgxd28gq")
-//                 if err != nil {
-//                         t.Errorf("Unexpected error: %s", err)
-//                 }
+                want := 32
+                got := resource.Metadata.PageCount.Value
+                if want != got {
+                        t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want, got)
+                }
+	})
+}
 
-//                 want := "2020-11-27T01:05:44Z"
-//                 got := resource.TimeStamp
-//                 if want != got {
-//                         t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want, got)
-//                 }
+func TestResourceGetByNOIDImage(t *testing.T) {
 
-//                 want = "c44e95e9-5cca-4c26-8e52-12773334dc95"
-//                 got = resource.Info.ID
-//                 if want != got {
-//                         t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want, got)
-//                 }
+        mux := setupMux("/viewer/api/v1/noid/j3tx985c", "testdata/image.json")
+        ts := httptest.NewServer(mux)
+        defer ts.Close()
 
-//                 want = "publication"
-//                 got = resource.Info.Type
-//                 if want != got {
-//                         t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want, got)
-//                 }
+        setupTestServerClient(ts)
 
-// 	})
-// }
+        t.Run("Get Image data by NOID", func(t *testing.T) {
+                resource, err := ResourceGetByNOID("j3tx985c")
+                if err != nil {
+                        t.Errorf("Unexpected error: %s", err)
+                }
+
+                want := 1
+                got := resource.Metadata.PageCount.Value
+                if want != got {
+                        t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want, got)
+                }
+	})
+}
 
