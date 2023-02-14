@@ -1,15 +1,15 @@
 package viewer
 
 import (
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 )
 
 func setupMux(apiPath string, filePath string) (mux *http.ServeMux) {
 	mux = http.NewServeMux()
 	mux.HandleFunc(apiPath, func(w http.ResponseWriter, _ *http.Request) {
-		data, _ := ioutil.ReadFile(filePath)
+		data, _ := os.ReadFile(filePath)
 		w.Write(data)
 	})
 
@@ -25,6 +25,7 @@ func setupTestServerClient(ts *httptest.Server) {
 	ConfigureClient(c)
 }
 
+/* keeping this code in case it's needed in the future
 func setupLocalhostClient() {
 	c := new(Config)
 	c.BaseURL = "http://localhost:3000"
@@ -33,4 +34,4 @@ func setupLocalhostClient() {
 
 	ConfigureClient(c)
 }
-
+*/
