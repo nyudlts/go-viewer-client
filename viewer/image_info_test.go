@@ -32,22 +32,43 @@ func TestImageInfoGetByNOIDImageSet(t *testing.T) {
 			t.Errorf("Unexpected error: %s", err)
 		}
 
-		want_str := "http://iiif.io/api/image/2/context.json"
-		got_str := imageInfo.Context
-		if want_str != got_str {
-			t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want_str, got_str)
+		// test parsed strings in ImageInfo type
+		// order is [want, got]
+		strAssertions := [][2]string{
+			{"http://iiif.io/api/image/2/context.json", imageInfo.Context},
+			{"https://image1.dlib.nyu.edu:8183/iiif/2/photo%2FMSS208_ref5830%2FMSS208_ref5830_n000001_d.jp2", imageInfo.ID},
+			{"http://iiif.io/api/image", imageInfo.Protocol},
 		}
-		/*
-			if want_int != got_int {
-				t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want_int, got_int)
-			}
 
-			want_string := "https://sites.dlib.nyu.edu/viewer/api/image/photos/MSS208_ref5830/1/info.json"
-			got_string := resource.IIIF.Image.Items[0]
-			if want_string != got_string {
-				t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", want_string, got_string)
+		for _, strAssertion := range strAssertions {
+			if strAssertion[0] != strAssertion[1] {
+				t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", strAssertion[0], strAssertion[1])
 			}
-		*/
+		}
+
+		// test image sizes
+		// order is [want, got]
+		uint32Assertions := [][2]uint32{
+			{2811, imageInfo.Width},
+			{2780, imageInfo.Height},
+			{88, imageInfo.Sizes[0].Width},
+			{87, imageInfo.Sizes[0].Height},
+			{176, imageInfo.Sizes[1].Width},
+			{174, imageInfo.Sizes[1].Height},
+			{351, imageInfo.Sizes[2].Width},
+			{348, imageInfo.Sizes[2].Height},
+			{703, imageInfo.Sizes[3].Width},
+			{695, imageInfo.Sizes[3].Height},
+			{1406, imageInfo.Sizes[4].Width},
+			{1390, imageInfo.Sizes[4].Height},
+			{2811, imageInfo.Sizes[5].Width},
+			{2780, imageInfo.Sizes[5].Height},
+		}
+		for _, uint32Assertion := range uint32Assertions {
+			if uint32Assertion[0] != uint32Assertion[1] {
+				t.Errorf("Mismatch: want: \"%v\", got: \"%v\"", uint32Assertion[0], uint32Assertion[1])
+			}
+		}
 	})
 }
 
