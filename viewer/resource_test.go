@@ -6,9 +6,7 @@ import (
 )
 
 //  wget https://sites.dlib.nyu.edu/viewer/api/v1/noid/xgxd28gq  -O image-set.json
-//  wget https://sites.dlib.nyu.edu/viewer/api/image/photos/MSS208_ref5830/1/info.json -O image-set-first-image-info.json
 //  wget https://sites.dlib.nyu.edu/viewer/api/v1/noid/j3tx985c  -O image.json
-//  wget https://sites.dlib.nyu.edu/viewer/api/image/photos/tam439_ref154/1/info.json -O image-info.json
 
 func TestResource(t *testing.T) {
 	var resource = Resource{
