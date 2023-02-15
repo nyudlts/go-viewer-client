@@ -17,9 +17,8 @@ func setupMux(apiPath string, filePath string) (mux *http.ServeMux) {
 }
 
 func handleFuncBuilderReturnFileContents(path string) func(http.ResponseWriter, *http.Request) {
-	filePath := path
 	return func(w http.ResponseWriter, _ *http.Request) {
-		data, _ := os.ReadFile(filePath)
+		data, _ := os.ReadFile(path)
 		w.Write(data)
 	}
 }
