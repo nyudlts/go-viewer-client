@@ -31,5 +31,25 @@ func main() {
 	}
 
 	fmt.Printf("Count: %d\n", resource.Metadata.PageCount.Value)
+
+	// assert that we have an image-info URL to access
+	if len(resource.IIIF.Image.Items) == 0 {
+		return fmt.Errorf("no item URLs found for: %s", noid)
+	}
+
+	imageInfo, err := viewer.ImageInfoGetByURL(resource.IIIF.Image.Items[0])
+	if err != nil {
+		return err
+	}
+
+	...
+	// find the closest pre-calculated image to the targetWidth
+	result := imageInfo.Sizes[0]
+	for _, size := range imageInfo.sizes {
+		if abs(int64(size.Width)-int64(targetWidth)) < abs(int64(result.Width)-int64(targetWidth)) {
+			result = size
+		}
+	}
+	fmt.Printf("Target Width: %d Closest Image: (Width: %d Height: %d)\n", targetWidth, result.Width, result.Height)
 }
 ```
