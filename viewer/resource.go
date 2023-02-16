@@ -15,6 +15,18 @@ type Metadata struct {
 
 type Resource struct {
 	Metadata Metadata `json:"metadata,omitempty"`
+	IIIF     IIIF     `json:"iiif,omitempty"`
+}
+
+type IIIF struct {
+	ID    string `json:"identifier,omitempty"`
+	Image Image  `json:"image,omitempty"`
+}
+
+type Image struct {
+	Service string   `json:"service,omitempty"`
+	Version uint     `json:"version,omitempty"`
+	Items   []string `json:"items,omitempty"`
 }
 
 func ResourceGetByNOID(noid string) (resource Resource, err error) {

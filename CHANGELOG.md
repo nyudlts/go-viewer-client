@@ -1,5 +1,9 @@
 # CHANGELOG
 
+#### v0.3.0
+  - add `ImageInfo` type
+  - add `ImageInfoGetByURL()`
+
 #### v0.2.0
   - update to use Go modules  
 
